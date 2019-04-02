@@ -1,0 +1,10 @@
+name: Mafia
+author: Snowman
+version: 1.0
+main: me.snowman.wlmafia.WLMafia
+
+commands:
+  mafia:
+    usage: /<command>
+    description: Main command
+    aliases: [m]
