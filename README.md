@@ -1,7 +1,8 @@
 Facut:
-- creearea mafiilor (concept) (merge)
-- stergerea mafiilor (concept) (merge)
+- creearea mafiilor (terminat) (netestat)
+- stergerea mafiilor (terminat) (netestat)
 - listarea mafiilor (concept) (merge)
-- invitarea playerilor in mafie (concept) (merge)
+- invitarea playerilor in mafie (terminat) (netestat)
+- mesaje custom (terminat) (netestat)
 
-Timp lucrat in IDE: 3 hrs 11 min
+Timp lucrat in IDE: 4 hrs 42 min
