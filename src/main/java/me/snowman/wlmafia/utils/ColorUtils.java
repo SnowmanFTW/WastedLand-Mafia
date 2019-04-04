@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 public class ColorUtils {
 
     private static ColorUtils cu;
-    public String prefix = color("[prefix] ");
+    public String prefix = color(getMessage("Prefix"));
 
     public static ColorUtils getColorUtils() {
         if (cu == null)
@@ -15,5 +15,9 @@ public class ColorUtils {
 
     public String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
+    public String getMessage(String s) {
+        return ConfigManager.getConfigManager().getMessages().getString(s);
     }
 }
