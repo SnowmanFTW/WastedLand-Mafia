@@ -14,7 +14,7 @@ public class EconomyUtils {
         return eu;
     }
 
-    private boolean setupEconomy() {
+    public boolean setupEconomy() {
         if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
@@ -24,5 +24,9 @@ public class EconomyUtils {
         }
         econ = rsp.getProvider();
         return econ != null;
+    }
+
+    public Economy getEcon() {
+        return econ;
     }
 }

@@ -3,6 +3,11 @@ Facut:
 - stergerea mafiilor (terminat) (netestat)
 - listarea mafiilor (concept) (merge)
 - invitarea playerilor in mafie (terminat) (netestat)
+- maxim 5 membrii in mafie (terminat) (netestat)
+- bani pentru a intra in mafie (terminat)
+- scoaterea unui player din mafie (terminat) (netestat)
+- prefix in chat (terminat)
 - mesaje custom (terminat) (netestat)
+- mafiile se salveaza dupa ce dai restart (terminat)
 
-Timp lucrat in IDE: 4 hrs 42 min
+Timp lucrat in IDE: 6 hrs 50 min

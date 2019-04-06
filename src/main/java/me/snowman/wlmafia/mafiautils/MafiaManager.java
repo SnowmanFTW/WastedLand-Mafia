@@ -2,6 +2,8 @@ package me.snowman.wlmafia.mafiautils;
 
 import me.snowman.wlmafia.utils.ColorUtils;
 import me.snowman.wlmafia.utils.ConfigManager;
+import me.snowman.wlmafia.utils.EconomyUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -28,14 +30,26 @@ public class MafiaManager {
         return null;
     }
 
+    public Mafia getMafia(Player player) {
+        for (Mafia m : this.mafias) {
+            if (m.getPlayers().contains(player.getUniqueId())) {
+                return m;
+            }
+        }
+        return null;
+    }
+
     public void addPlayer(Player player, String mafia) {
         Mafia m = this.getMafia(mafia);
 
         if (m == null) {
-            player.sendMessage("nu");
+            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieOwner")));
             return;
         }
 
+        if (m.getPlayers().size() == 5) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieMaxim")));
+        }
         m.getPlayers().add(player.getUniqueId());
         List<String> temp = new ArrayList<>();
         for (UUID uuid : m.getPlayers()) {
@@ -43,7 +57,6 @@ public class MafiaManager {
         }
         ConfigManager.getConfigManager().getMafias().set(mafia + ".players", temp);
         ConfigManager.getConfigManager().saveMafias();
-        player.sendMessage("adaugat");
     }
 
     public void removePlayer(Player player) {
@@ -54,12 +67,19 @@ public class MafiaManager {
         }
 
         if (m == null) {
-            player.sendMessage("nu este in mafie");
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuE")));
             return;
         }
-
+        Player owner = Bukkit.getPlayer(m.getOwner());
         m.getPlayers().remove(player.getUniqueId());
-        player.sendMessage("scos");
+        List<String> temp = new ArrayList<>();
+        for (UUID uuid : m.getPlayers()) {
+            temp.add(uuid.toString());
+        }
+        ConfigManager.getConfigManager().getMafias().set(m.getName() + ".players", temp);
+        ConfigManager.getConfigManager().saveMafias();
+        player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieScos").replace("%mafia%", m.getName())));
+        owner.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieAiScos").replace("%player%", player.getName())));
     }
 
     public void createMafia(String name, Player player) {
@@ -74,6 +94,11 @@ public class MafiaManager {
             }
         }
 
+        if (!EconomyUtils.getEconomy().getEcon().has(player, ConfigManager.getConfigManager().getConfig().getInt("BaniMafie"))) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuAiBani").replace("%bani%", String.valueOf(ConfigManager.getConfigManager().getConfig().getInt("BaniMafie")))));
+            return;
+        }
+        EconomyUtils.getEconomy().getEcon().withdrawPlayer(player, ConfigManager.getConfigManager().getConfig().getInt("BaniMafie"));
         Mafia m = new Mafia(name, player.getUniqueId());
         this.mafias.add(m);
         m.getPlayers().add(player.getUniqueId());

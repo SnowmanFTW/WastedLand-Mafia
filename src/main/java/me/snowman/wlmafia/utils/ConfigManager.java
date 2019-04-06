@@ -1,7 +1,6 @@
 package me.snowman.wlmafia.utils;
 
 import me.snowman.wlmafia.WLMafia;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -58,7 +57,6 @@ public class ConfigManager {
         messagesfile = new File(plugin.getDataFolder(), "messages.yml");
         if (!messagesfile.exists()) {
             plugin.saveResource("messages.yml", true);
-            Bukkit.getServer().getConsoleSender().sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + "&cmessages.yml &ffile created."));
         }
         messagescfg = YamlConfiguration.loadConfiguration(messagesfile);
     }
@@ -69,5 +67,13 @@ public class ConfigManager {
             messagescfg = YamlConfiguration.loadConfiguration(messagesfile);
         }
         return messagescfg;
+    }
+
+    public void setupConfig() {
+        plugin.saveDefaultConfig();
+    }
+
+    public FileConfiguration getConfig() {
+        return plugin.getConfig();
     }
 }

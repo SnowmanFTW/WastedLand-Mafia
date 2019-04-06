@@ -1,6 +1,6 @@
 name: Mafia
 author: Snowman
-version: 1.0
+version: 1.0B
 main: me.snowman.wlmafia.WLMafia
 
 commands:
