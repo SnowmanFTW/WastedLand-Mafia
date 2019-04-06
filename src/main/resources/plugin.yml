@@ -4,7 +4,7 @@ version: 1.0B
 main: me.snowman.wlmafia.WLMafia
 
 commands:
-  mafia:
+  clan:
     usage: /<command>
     description: Main command
-    aliases: [m]
+    aliases: [c]

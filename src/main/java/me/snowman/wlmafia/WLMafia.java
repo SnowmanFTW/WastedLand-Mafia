@@ -14,7 +14,7 @@ public class WLMafia extends JavaPlugin {
         ConfigManager.getConfigManager().setupMessages();
         ConfigManager.getConfigManager().setupConfig();
         EconomyUtils.getEconomy().setupEconomy();
-        getCommand("mafia").setExecutor(new MafiaCommand());
+        getCommand("clan").setExecutor(new MafiaCommand());
         getServer().getPluginManager().registerEvents(new ChatPlaceholders(), this);
     }
 

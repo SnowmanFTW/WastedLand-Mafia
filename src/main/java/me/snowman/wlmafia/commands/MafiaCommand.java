@@ -15,7 +15,7 @@ import java.util.List;
 public class MafiaCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(ColorUtils.getColorUtils().color("&eWastedLand Mafia Help\n&f- &e/mafia create <nume> &f- &7Creeaza o mafie\n&f- &e/mafia delete &f- &7Sterge mafia ta\n&f- &e/mafia invite <player> &f- &7Invita pe cineva in mafie\n&f- &e/mafia accept <player> &f- &7Accepta pe cineva in mafie\n&f- &e/mafia remove <player> &f &7Scoate pe cineva din mafie\n&f- &e/mafia list &f- &7Arata toate mafiile\n&f- &e/mafia help &f- &7Arata asta"));
+            sender.sendMessage(ColorUtils.getColorUtils().color("&eWastedLand Mafia Help\n&f- &e/clan create <nume> &f- &7Creeaza un clan\n&f- &e/clan delete &f- &7Sterge clanul tau\n&f- &e/clan invite <player> &f- &7Invita pe cineva in clan\n&f- &e/clan accept <player> &f- &7Accepta pe cineva in clan\n&f- &e/clan remove <player> &f &7Scoate pe cineva din clan\n&f- &e/clan list &f- &7Arata toate clanurile\n&f- &e/clan help &f- &7Arata asta"));
             return true;
         }
         switch (args[0]) {
@@ -91,10 +91,10 @@ public class MafiaCommand implements CommandExecutor {
                 }
                 MafiaManager.getManager().removePlayer(removed);
             case "help":
-                sender.sendMessage(ColorUtils.getColorUtils().color("&eWastedLand Mafia Help\n&f- &e/mafia create <nume> &f- &7Creeaza o mafie\n&f- &e/mafia delete &f- &7Sterge mafia ta\n&f- &e/mafia invite <player> &f- &7Invita pe cineva in mafie\n&f- &e/mafia accept <player> &f- &7Accepta pe cineva in mafie\n&f- &e/mafia remove <player> &f &7Scoate pe cineva din mafie\n&f- &e/mafia list &f- &7Arata toate mafiile\n&f- &e/mafia help &f- &7Arata asta"));
+                sender.sendMessage(ColorUtils.getColorUtils().color("&eWastedLand Mafia Help\n&f- &e/clan create <nume> &f- &7Creeaza un clan\n&f- &e/clan delete &f- &7Sterge clanul tau\n&f- &e/clan invite <player> &f- &7Invita pe cineva in clan\n&f- &e/clan accept <player> &f- &7Accepta pe cineva in clan\n&f- &e/clan remove <player> &f &7Scoate pe cineva din clan\n&f- &e/clan list &f- &7Arata toate clanurile\n&f- &e/clan help &f- &7Arata asta"));
                 break;
             default:
-                sender.sendMessage(ColorUtils.getColorUtils().color("&eWastedLand Mafia Help\n&f- &e/mafia create <nume> &f- &7Creeaza o mafie\n&f- &e/mafia delete &f- &7Sterge mafia ta\n&f- &e/mafia invite <player> &f- &7Invita pe cineva in mafie\n&f- &e/mafia accept <player> &f- &7Accepta pe cineva in mafie\n&f- &e/mafia remove <player> &f &7Scoate pe cineva din mafie\n&f- &e/mafia list &f- &7Arata toate mafiile\n&f- &e/mafia help &f- &7Arata asta"));
+                sender.sendMessage(ColorUtils.getColorUtils().color("&eWastedLand Mafia Help\n&f- &e/clan create <nume> &f- &7Creeaza un clan\n&f- &e/clan delete &f- &7Sterge clanul tau\n&f- &e/clan invite <player> &f- &7Invita pe cineva in clan\n&f- &e/clan accept <player> &f- &7Accepta pe cineva in clan\n&f- &e/clan remove <player> &f &7Scoate pe cineva din clan\n&f- &e/clan list &f- &7Arata toate clanurile\n&f- &e/clan help &f- &7Arata asta"));
                 break;
 
         }

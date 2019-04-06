@@ -11,3 +11,5 @@ Facut:
 - mafiile se salveaza dupa ce dai restart (terminat)
 
 Timp lucrat in IDE: 6 hrs 50 min
+
+DOWNLOAD: https://download2263.mediafire.com/uq3t16i2oagg/1mo0tikz6motqiu/WastedlandMafia.jar
