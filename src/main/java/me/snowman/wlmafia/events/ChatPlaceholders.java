@@ -11,9 +11,15 @@ public class ChatPlaceholders implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
+        String prefix;
         Player player = event.getPlayer();
+        if (MafiaManager.getManager().getMafia(player) == null) {
+            prefix = "";
+        } else {
+            prefix = MafiaManager.getManager().getMafia(player).getName();
+        }
         String format = event.getFormat();
-        format = format.replace("{MAFIA}", MafiaManager.getManager().getMafia(player).getName());
+        format = format.replace("{MAFIA}", prefix);
         event.setFormat(format);
     }
 }

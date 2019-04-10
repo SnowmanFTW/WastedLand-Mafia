@@ -13,7 +13,6 @@ import java.util.UUID;
 public class MafiaManager {
     private static MafiaManager mm;
     private List<Mafia> mafias = new ArrayList<>();
-    private ColorUtils colorUtils = ColorUtils.getColorUtils();
 
     public static MafiaManager getManager() {
         if (mm == null)
@@ -43,7 +42,7 @@ public class MafiaManager {
         Mafia m = this.getMafia(mafia);
 
         if (m == null) {
-            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieOwner")));
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieOwner")));
             return;
         }
 
@@ -57,9 +56,10 @@ public class MafiaManager {
         }
         ConfigManager.getConfigManager().getMafias().set(mafia + ".players", temp);
         ConfigManager.getConfigManager().saveMafias();
+        Bukkit.broadcastMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieAIntrat").replace("%mafia%", m.getName()).replace("%player%", player.getName())));
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(Player player, Player owner) {
         Mafia m = null;
 
         for (Mafia mafia : this.mafias) {
@@ -70,7 +70,10 @@ public class MafiaManager {
             player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuE")));
             return;
         }
-        Player owner = Bukkit.getPlayer(m.getOwner());
+        if (!m.getOwner().equals(owner.getUniqueId())) {
+            owner.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieOwner")));
+            return;
+        }
         m.getPlayers().remove(player.getUniqueId());
         List<String> temp = new ArrayList<>();
         for (UUID uuid : m.getPlayers()) {
@@ -82,14 +85,39 @@ public class MafiaManager {
         owner.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieAiScos").replace("%player%", player.getName())));
     }
 
+    public void leaveMafia(Player player) {
+        Mafia m = null;
+
+        for (Mafia mafia : this.mafias) {
+            if (mafia.getPlayers().contains(player.getUniqueId())) m = mafia;
+        }
+
+        if (m == null) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuE")));
+            return;
+        }
+        if (m.getOwner().equals(player.getUniqueId())) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuPotiIesi")));
+            return;
+        }
+        m.getPlayers().remove(player.getUniqueId());
+        List<String> temp = new ArrayList<>();
+        for (UUID uuid : m.getPlayers()) {
+            temp.add(uuid.toString());
+        }
+        ConfigManager.getConfigManager().getMafias().set(m.getName() + ".players", temp);
+        ConfigManager.getConfigManager().saveMafias();
+        player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieIesit").replace("%mafia%", m.getName())));
+    }
+
     public void createMafia(String name, Player player) {
         if (this.mafias.contains(getMafia(name))) {
-            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieExista").replace("%mafia%", name)));
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieExista").replace("%mafia%", name)));
             return;
         }
         for (Mafia mafias : mafias) {
             if (mafias.getPlayers().contains(player.getUniqueId())) {
-                player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieEstiDeja").replace("%mafia%", name)));
+                player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieEstiDeja").replace("%mafia%", name)));
                 return;
             }
         }
@@ -110,7 +138,7 @@ public class MafiaManager {
         ConfigManager.getConfigManager().getMafias().set(name + ".deposit", " ");
         ConfigManager.getConfigManager().getMafias().set(name + ".owner", player.getUniqueId().toString());
         ConfigManager.getConfigManager().saveMafias();
-        player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieCreeata").replace("%mafia%", name)));
+        player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieCreeata").replace("%mafia%", name)));
     }
 
     public void deleteMafia(Player player) {
@@ -122,7 +150,7 @@ public class MafiaManager {
         }
 
         if (m == null) {
-            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieOwner")));
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieOwner")));
             return;
         }
 
@@ -130,7 +158,7 @@ public class MafiaManager {
         this.mafias.remove(m);
         ConfigManager.getConfigManager().getMafias().set(m.getName(), null);
         ConfigManager.getConfigManager().saveMafias();
-        player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieStearsa").replace("%mafia%", m.getName())));
+        player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieStearsa").replace("%mafia%", m.getName())));
     }
 
     public List<Mafia> getMafias() {
@@ -144,13 +172,37 @@ public class MafiaManager {
                 m = mafias;
             }
         }
-
         if (m == null) {
-            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieOwner")));
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieOwner")));
+            return;
+        }
+        if (m.getOwner().equals(player.getUniqueId())) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieInviteSingur")));
             return;
         }
         m.getWaiting().add(player.getUniqueId());
-        player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieInvitat").replace("%mafia%", m.getName())));
+        player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieInvitat").replace("%mafia%", m.getName())));
+        owner.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieScrie").replace("%player%", owner.getName())));
+    }
+
+    public void addWaitingPeInvers(Player player, String name) {
+        Mafia m = null;
+        for (Mafia mafias : getMafias()) {
+            if (mafias.getName().equalsIgnoreCase(name)) {
+                m = mafias;
+            }
+        }
+        if (m == null) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuExista").replace("%mafia%", name)));
+            return;
+        }
+        if (m.getOwner().equals(player.getUniqueId())) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieInviteSingur")));
+            return;
+        }
+        m.getWaiting().add(player.getUniqueId());
+        Bukkit.getPlayer(m.getOwner()).sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieVreaSaIntre").replace("%player%", player.getName())));
+        Bukkit.getPlayer(m.getOwner()).sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieScrie").replace("%player%", player.getName())));
     }
 
     public void acceptWaiting(Player player, Player owner) {
@@ -162,16 +214,41 @@ public class MafiaManager {
         }
 
         if (m == null) {
-            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieNeinvitat").replace("%player%", owner.getName())));
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNeinvitat").replace("%player%", owner.getName())));
             return;
         }
 
         if (m.getWaiting().contains(player.getUniqueId())) {
             this.addPlayer(player, m.getName());
             m.getWaiting().remove(player.getUniqueId());
-            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieAcceptat").replace("%mafia%", m.getName())));
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieAcceptat").replace("%mafia%", m.getName())));
         } else {
-            player.sendMessage(colorUtils.color(colorUtils.prefix + colorUtils.getMessage("MafieNeinvitat").replace("%player%", owner.getName())));
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNeinvitat").replace("%player%", owner.getName())));
+        }
+    }
+
+    public void acceptWaitingPeInvers(Player player, Player owner) {
+        Mafia m = null;
+        for (Mafia mafias : getMafias()) {
+            if (mafias.getWaiting().contains(player.getUniqueId())) {
+                m = mafias;
+            }
+        }
+
+        if (m == null) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuADatJoin").replace("%player%", player.getName())));
+            return;
+        }
+        if (!m.getOwner().equals(owner.getUniqueId())) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieOwner")));
+            return;
+        }
+        if (m.getWaiting().contains(player.getUniqueId())) {
+            this.addPlayer(player, m.getName());
+            m.getWaiting().remove(player.getUniqueId());
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieAcceptat").replace("%mafia%", m.getName())));
+        } else {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNeinvitat").replace("%player%", owner.getName())));
         }
     }
 
