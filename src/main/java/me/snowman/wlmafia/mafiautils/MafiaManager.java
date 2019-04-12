@@ -74,6 +74,10 @@ public class MafiaManager {
             owner.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieOwner")));
             return;
         }
+        if (m.getOwner().equals(player.getUniqueId())) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuPotiIesi")));
+            return;
+        }
         m.getPlayers().remove(player.getUniqueId());
         List<String> temp = new ArrayList<>();
         for (UUID uuid : m.getPlayers()) {
@@ -251,6 +255,29 @@ public class MafiaManager {
             player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNeinvitat").replace("%player%", owner.getName())));
         }
     }
+
+    public void addRemoveChat(Player player) {
+        Mafia m = null;
+        for (Mafia mafias : getMafias()) {
+            if (mafias.getPlayers().contains(player.getUniqueId())) {
+                m = mafias;
+            }
+        }
+
+        if (m == null) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieNuEsti")));
+            return;
+        }
+
+        if (m.getChat().contains(player.getUniqueId())) {
+            player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieChatIesit")));
+            m.getChat().remove(player.getUniqueId());
+            return;
+        }
+        m.getChat().add(player.getUniqueId());
+        player.sendMessage(ColorUtils.getColorUtils().color(ColorUtils.getColorUtils().prefix + ColorUtils.getColorUtils().getMessage("MafieChatIntrat")));
+    }
+
 
 
 }

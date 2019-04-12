@@ -12,6 +12,7 @@ public class Mafia {
     private List<UUID> players = new ArrayList<>();
     private List<ItemStack> deposit = new ArrayList<>();
     private List<UUID> waiting = new ArrayList<>();
+    private List<UUID> chat = new ArrayList<>();
     private UUID owner;
 
     public Mafia(String name, UUID owner) {
@@ -33,6 +34,10 @@ public class Mafia {
 
     public List<UUID> getWaiting() {
         return this.waiting;
+    }
+
+    public List<UUID> getChat() {
+        return this.chat;
     }
 
     public UUID getOwner() {

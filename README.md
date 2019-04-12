@@ -12,6 +12,6 @@ Facut:
 - playerii pot iesi singuri din mafie (terminat)
 - playerii pot cere sa intre in mafie (terminat)
 
-Timp lucrat in IDE: 8 hrs 30 min
+Timp lucrat in IDE: 9 hrs 49 min
 
-DOWNLOAD: https://download2263.mediafire.com/14qcj79b9yqg/5wpmgq0aui6t3bm/WastedlandMafia.jar
+DOWNLOAD: download2265.mediafire.com/l8c18a4oxsqg/ovpd3zjnkbe1kp2/WastedlandMafia.jar

@@ -1,10 +1,10 @@
 name: Mafia
 author: Snowman
-version: 1.1B
+version: 1.2B
 main: me.snowman.wlmafia.WLMafia
 
 commands:
-  clan:
+  mafia:
     usage: /<command>
     description: Main command
-    aliases: [c]
+    aliases: [m]
